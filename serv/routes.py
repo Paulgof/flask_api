@@ -1,12 +1,21 @@
-from flask import abort, request, jsonify
-from serv import app
-from serv.models import Data
+from flask import abort, request, jsonify, Response
+from serv import app, db, validators
+import json
+
+
+def resp(status_code, data):
+    return Response(status=status_code,
+                    mimetype='application/json',
+                    response=json.dumps(data, ensure_ascii=False) + "\n",)
 
 
 @app.route('/imports', methods=['POST'])
 def set_import():
     data = request.get_json()
-    return jsonify(data)
+    # validator should be here
+    import_id = db.add_import(data['citizens'])
+    return resp(201, {"data": {"import_id": import_id}})
+
 
 @app.route('/imports/<int:import_id>/citizens/<int:citizen_id>', methods=['PATCH'])
 def patch_user(import_id, citizen_id):
@@ -15,7 +24,8 @@ def patch_user(import_id, citizen_id):
 
 @app.route('/imports/<int:import_id>/citizens', methods=['GET'])
 def get_users(import_id):
-    pass
+    users = db.get_users(import_id)
+    return resp(200, {"data": users})
 
 
 @app.route('/imports/<int:import_id>/citizens/birthdays', methods=['GET'])

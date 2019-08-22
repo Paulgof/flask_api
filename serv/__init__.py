@@ -1,11 +1,10 @@
 from flask import Flask
 from config import Config
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from serv.db_cross import DBConnector
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-from serv import routes, models
+db = DBConnector(app.config)
+
+from serv import routes
