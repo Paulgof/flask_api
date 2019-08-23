@@ -1,5 +1,5 @@
 from psycopg2 import connect
-from psycopg2 import ProgrammingError, Error
+from psycopg2 import ProgrammingError, Error, DataError
 from psycopg2.extras import Json
 
 
@@ -44,6 +44,26 @@ class DBConnector:
             cursor.close()
             conn.close()
         print('FROM INSERT GOT ID =', result)
+        return result
+
+    def patch_user(self, import_id, citizen_id, data):
+        conn = self._db_connect()
+        cursor = conn.cursor()
+        result = -1
+        try:
+            update_query = 'UPDATE imports SET users = jsonb_set((users), %s, %s, false) WHERE id = %s'
+            select_user_query = 'SELECT jsonb_extract_path(users, %s) FROM imports WHERE id = %s'
+            for key in data.keys():
+                cursor.execute(update_query, ["{" + str(citizen_id) + ", " + key + "}", Json(data[key]), import_id])
+            conn.commit()
+            cursor.execute(select_user_query, [str(citizen_id), import_id])
+            result = cursor.fetchone()[0]
+        except BrokenPipeError:
+            print('DB Error')
+        finally:
+            cursor.close()
+            conn.close()
+        print('PATCHED USER = ', result)
         return result
 
     def get_users(self, import_id):
