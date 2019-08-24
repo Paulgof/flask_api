@@ -1,3 +1,5 @@
 class Config(object):
-    DATABASE_USER = 'flask_api'
-    DATABASE_NAME = 'apidraft.db'
+    DB_USER = 'flask_api'
+    DB_NAME = 'apidraft.db'
+    DB_HOST = '127.0.0.1'
+    DB_PASSWORD = 'extra'
