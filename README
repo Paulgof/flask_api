@@ -1,0 +1,29 @@
+УСТАНОВКА
+
+        1.  Скопируйте проект из github репозитория командой:
+        #   git clone https://github.com/Paulgof/flask_api
+        2.  Перейдите в директорию с проектом.
+        #   cd flask_api
+        2.1 Если у вас не установлен PostgreSQL, то разкомментируйте строки в скрипте setup.sh
+           (лежит в корне проекта, разкомментировать всё после ### PostgreSQL install ###).
+        3.  Запустите скрипт установки:
+        #   source setup.sh
+        4.  Для завершения установки осталось (4.1) создать пользователя и базу данных PostgreSQL,
+            или (4.2) указать свои в config.py:
+        4.1 Создание пользователя и базы данных PostgreSQL:
+        #   sudo su - postgres
+        #   createuser flask_api
+        #   createdb -O flask_api apidraft.db
+        #   exit
+        4.2 Указание своих (уже существующих) пользователя и базы данных:
+        #   nano config.py
+            class Config(object):
+                DB_USER = <your user name>
+                DB_NAME = <your database name>
+                DB_HOST = '127.0.0.1'
+                DB_PASSWORD = <your db user's password>
+
+ЗАПУСК
+
+        1.  Выполнить команду перезапуска supervisor:
+        #   sudo supervisorctl reload

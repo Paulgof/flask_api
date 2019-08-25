@@ -1,6 +1,6 @@
-from flask import abort, request, jsonify, Response
+from flask import request, Response
 from serv import app, db, validators
-from serv.validators import InvalidRequestError, benchmark
+from serv.validators import InvalidRequestError
 import json
 
 
@@ -13,7 +13,6 @@ def resp(status_code, data=None):
 
 
 @app.route('/imports', methods=['POST'])
-@benchmark
 def set_import():
     try:
         data = request.get_json()

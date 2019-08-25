@@ -1,22 +1,9 @@
 import re
-import time
 from datetime import date, datetime
 
 
 class InvalidRequestError(Exception):
     pass
-
-
-def benchmark(func):
-
-    def wrapper(*args, **kwargs):
-        start = time.time()
-        return_value = func(*args, **kwargs)
-        end = time.time()
-        print('[*] Время выполнения: {} секунд.'.format(end - start))
-        return return_value
-
-    return wrapper
 
 
 def check_citizens(citizens):
