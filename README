@@ -25,5 +25,5 @@
 
 ЗАПУСК
 
-        1.  Выполнить команду перезапуска supervisor:
-        #   sudo supervisorctl reload
+        1.  Выполнить команду перезапуска flask_api.service:
+        #   sudo systemctl restart flask_api

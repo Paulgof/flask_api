@@ -7,10 +7,13 @@ sudo apt-get upgrade
 #echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee  /etc/apt/sources.list.d/pgdg.list ;
 #sudo apt-get update
 #sudo apt-get install postgresql-11 postgresql-server-dev-11
-sudo apt-get -y install supervisor python3.7 python3.7-dev python3.7-venv python3.7-pip
-sudo cp ./supervisor.conf /etc/supervisor/conf.d/flask_api.conf
+#sudo systemctl enable postgresql
+sudo apt-get -y install python3.7 python3.7-dev python3.7-venv
+sudo cp ./flask_api.service /etc/systemd/system/flask_api.service
 python3.7 -m venv env
 source ./env/bin/activate
 pip install -r requirements.txt
 deactivate
-
+sudo systemctl daemon-reload
+sudo systemctl start flask_api
+sudo systemctl enable flask_api

@@ -1,0 +1,14 @@
+[Unit]
+Description=Flask Api REST
+After=network.target
+
+[Service]
+User=entrant
+WorkingDirectory=/home/entrant/dev/flask_api/
+Environment=/home/entrant/dev/flask_api/env/bin/
+ExecStart=/home/entrant/dev/flask_api/start.sh
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
